@@ -103,6 +103,9 @@ tabla_resultados <- data.frame(
 cat("Resultados de la Actividad 4, con", nRep, "dias por estrategia:\n")
 print(tabla_resultados)
 
+# Configuración para gráficos de alta resolución
+pdf("Rplots.pdf", width = 12, height = 8)
+
 # Dibujamos los histogramas de ganancia neta diaria.
 par(mfrow = c(2, 3))
 for (i in 1:length(estrategias)) {
@@ -112,12 +115,15 @@ for (i in 1:length(estrategias)) {
     ganancias[dia] <- resultados[[i]][[dia]]$ganancia_neta
   }
 
+  # breaks="Sturges": regla que calcula automaticamente el numero de barras (bins)
+  # Un bin es cada barra del histograma que agrupa valores en un rango
   hist(
     ganancias,
     main = nombres[i],
     xlab = "Ganancia neta diaria (fichas)",
     ylab = "Frecuencia",
-    col = "lightblue"
+    col = "lightblue",
+    breaks = "Sturges"
   )
 }
 
@@ -135,9 +141,13 @@ for (i in 1:length(estrategias)) {
     main = nombres[i],
     xlab = "Total apostado por dia (fichas)",
     ylab = "Frecuencia",
-    col = "wheat"
+    col = "wheat",
+    breaks = "Sturges"
   )
 }
 
 # Dejamos la ventana de gráficos en su distribución normal.
 par(mfrow = c(1, 1))
+
+# Cerrar el archivo 
+dev.off()
